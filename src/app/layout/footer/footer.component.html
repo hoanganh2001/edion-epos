@@ -1,0 +1,34 @@
+<footer class="footer">
+  <div class="flex justify-between flex-auto items-center">
+    <div class="flex items-center justify-start">
+      <button class="back-button" (click)="onBackClick()">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
+          />
+        </svg>
+        <span class="">戻る</span>
+      </button>
+    </div>
+    <div class="flex items-center justify-end space-x-4">
+      <button
+        class="button button-clear h-[48x] w-[128px] px-4 bg-blue-500 text-white rounded"
+        (click)="onClearClick()"
+      >
+        クリア
+      </button>
+      <button
+        class="button button-save h-[48x] w-[128px] px-4 text-white rounded"
+        (click)="onSaveClick()"
+      >
+        保 存
+      </button>
+      <button
+        class="button button-confirm h-[48x] w-[128px] px-4 bg-blue-700 text-white rounded"
+        (click)="onConfirmClick()"
+      >
+        確定
+      </button>
+    </div>
+  </div>
+</footer>

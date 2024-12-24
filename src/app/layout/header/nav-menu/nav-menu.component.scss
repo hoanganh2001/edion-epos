@@ -1,0 +1,35 @@
+.nav-tabs {
+  display: flex;
+  gap: 24px;
+  padding: 8px 16px;
+  background-color: white;
+  border-bottom: 1px solid var(--border-color);
+  overflow-x: auto;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .nav-tabs {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .nav-item {
+    flex: 0 0 48%;
+    margin-bottom: 8px;
+  }
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #666;
+  text-decoration: none;
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+.nav-item i {
+  font-size: 20px;
+}

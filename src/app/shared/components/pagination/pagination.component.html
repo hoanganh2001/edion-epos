@@ -1,0 +1,231 @@
+<div class="flex items-center justify-between gap-4">
+  <!-- Simple Pagination -->
+  @if (paginationType === 'simple') {
+  <div class="flex items-center gap-2">
+    <button
+      class="px-2 py-1 border rounded disabled:opacity-50 disabled:cursor-not-allowed"
+      [disabled]="!hasPreviousPage"
+      (click)="onPageChange(currentPage - 1)"
+    >
+      <span>←</span>
+    </button>
+    <span>{{ currentPage }} / {{ totalPages }}</span>
+    <button
+      class="px-2 py-1 border rounded disabled:opacity-50 disabled:cursor-not-allowed"
+      [disabled]="!hasNextPage"
+      (click)="onPageChange(currentPage + 1)"
+    >
+      <span>→</span>
+    </button>
+  </div>
+  }
+
+  <!-- Full Pagination -->
+  @if (paginationType === 'full') {
+  <div class="flex items-center gap-4">
+    <div>
+      <span
+        >{{ (currentPage - 1) * rowsPerPage + 1 }}-{{
+          Math.min(currentPage * rowsPerPage, totalItems)
+        }}
+        of {{ totalItems }}</span
+      >
+    </div>
+    <div>
+      <label>Rows per page:</label>
+      <select
+        [(ngModel)]="rowsPerPage"
+        (ngModelChange)="onRowsPerPageChange($event)"
+      >
+        @for (option of rowsPerPageOptions; track option) {
+        <option [value]="option">{{ option }}</option>
+        }
+      </select>
+    </div>
+    <div class="flex items-center gap-1">
+      <button
+        class="px-2 py-1 border rounded disabled:opacity-50 disabled:cursor-not-allowed"
+        [disabled]="isFirstPage"
+        (click)="onPageChange(1)"
+      >
+        ««
+      </button>
+      <button
+        class="px-2 py-1 border rounded disabled:opacity-50 disabled:cursor-not-allowed"
+        [disabled]="!hasPreviousPage"
+        (click)="onPageChange(currentPage - 1)"
+      >
+        «
+      </button>
+      @for (page of pages; track page) {
+      <button
+        class="px-3 py-1 border rounded"
+        [class.bg-blue-500]="page === currentPage"
+        [class.text-white]="page === currentPage"
+        (click)="onPageChange(page)"
+      >
+        {{ page }}
+      </button>
+      }
+      <button
+        class="px-2 py-1 border rounded disabled:opacity-50 disabled:cursor-not-allowed"
+        [disabled]="!hasNextPage"
+        (click)="onPageChange(currentPage + 1)"
+      >
+        »
+      </button>
+      <button
+        class="px-2 py-1 border rounded disabled:opacity-50 disabled:cursor-not-allowed"
+        [disabled]="isLastPage"
+        (click)="onPageChange(totalPages)"
+      >
+        »»
+      </button>
+    </div>
+  </div>
+  }
+
+  <!-- Compact Pagination -->
+  @if (paginationType === 'compact') {
+  <div class="flex items-center gap-4">
+    <div class="flex items-center gap-2">
+      <button
+        class="px-2 py-1 border rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+        [disabled]="!hasPreviousPage"
+        (click)="onPageChange(currentPage - 1)"
+      >
+        <span>←</span>
+      </button>
+      <div class="flex items-center gap-2">
+        <span class="text-sm text-gray-600">Page</span>
+        <select
+          [(ngModel)]="currentPage"
+          (change)="onPageChange(currentPage)"
+          class="border rounded px-2 py-1 min-w-[70px]"
+        >
+          @for (page of pages; track page) {
+          <option [value]="page">{{ page }} of {{ totalPages }}</option>
+          }
+        </select>
+      </div>
+      <button
+        class="px-2 py-1 border rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+        [disabled]="!hasNextPage"
+        (click)="onPageChange(currentPage + 1)"
+      >
+        <span>→</span>
+      </button>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <span class="text-sm text-gray-600">Show</span>
+      <select
+        [(ngModel)]="rowsPerPage"
+        (ngModelChange)="onRowsPerPageChange($event)"
+        class="border rounded px-2 py-1"
+      >
+        @for (option of rowsPerPageOptions; track option) {
+        <option [value]="option">{{ option }}</option>
+        }
+      </select>
+      <span class="text-sm text-gray-600">entries</span>
+    </div>
+
+    <div class="text-sm text-gray-600">
+      {{ (currentPage - 1) * rowsPerPage + 1 }}-{{
+        Math.min(currentPage * rowsPerPage, totalItems)
+      }}
+      of {{ totalItems }} items
+    </div>
+  </div>
+  }
+
+  <!-- Minimal Pagination -->
+  @if (paginationType === 'minimal') {
+  <div class="flex items-center justify-between">
+    <div class="text-sm text-gray-600">
+      {{ (currentPage - 1) * rowsPerPage + 1 }}-{{
+        Math.min(currentPage * rowsPerPage, totalItems)
+      }}
+      of {{ totalItems }}
+    </div>
+
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-2">
+        <span class="text-sm text-gray-600"> Rows per page:</span>
+        <select
+          [(ngModel)]="rowsPerPage"
+          (ngModelChange)="onRowsPerPageChange($event)"
+          class="border-0 bg-transparent text-sm text-gray-600 focus:outline-none"
+        >
+          @for (option of rowsPerPageOptions; track option) {
+          <option [value]="option">{{ option }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button
+          class="p-1 text-gray-600 hover:bg-gray-100 rounded disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+          [disabled]="currentPage === 1"
+          (click)="onPageChange(currentPage - 1)"
+        >
+          <span>←</span>
+        </button>
+        <span class="text-sm text-gray-600 min-w-[3rem] text-center">
+          {{ currentPage }}/{{ totalPages }}
+        </span>
+        <button
+          class="p-1 text-gray-600 hover:bg-gray-100 rounded disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+          [disabled]="currentPage === totalPages"
+          (click)="onPageChange(currentPage + 1)"
+        >
+          <span>→</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- Japanese Pagination -->
+  @if (paginationType === 'japanese') {
+  <div class="flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <span class="text-sm text-gray-600">
+        {{ (currentPage - 1) * rowsPerPage + 1 }}-{{
+          Math.min(currentPage * rowsPerPage, totalItems)
+        }}件
+      </span>
+      <select
+        [(ngModel)]="rowsPerPage"
+        (ngModelChange)="onRowsPerPageChange($event)"
+        class="border rounded px-2 py-1 text-sm"
+      >
+        @for (option of rowsPerPageOptions; track option) {
+        <option [value]="option">{{ option }}件/1ページ</option>
+        }
+      </select>
+    </div>
+
+    <div class="flex items-center gap-1">
+      <button
+        class="p-1 text-gray-600 hover:bg-gray-100 rounded disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+        [disabled]="!hasPreviousPage"
+        (click)="onPageChange(currentPage - 1)"
+      >
+        <span>←</span>
+      </button>
+      <span class="text-sm text-gray-600"
+        >{{ currentPage }}/{{ totalPages }}</span
+      >
+      <button
+        class="p-1 text-gray-600 hover:bg-gray-100 rounded disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+        [disabled]="!hasNextPage"
+        (click)="onPageChange(currentPage + 1)"
+      >
+        <span>→</span>
+      </button>
+    </div>
+  </div>
+  }
+</div>

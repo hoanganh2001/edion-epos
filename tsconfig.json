@@ -16,7 +16,9 @@
     "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
-    "module": "ES2022"
+    "module": "ES2022",
+    "noImplicitAny": true, // Raise error on expressions and declarations with an implied 'any' type
+    "strictNullChecks": true // Ensure null and undefined are handled correctly
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

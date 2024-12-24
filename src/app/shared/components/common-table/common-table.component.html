@@ -1,0 +1,51 @@
+<div class="overflow-x-auto">
+  <table class="min-w-full border-collapse border border-gray-300">
+    <thead class="bg-gray-100">
+      <tr>
+        @for(col of columns; track i; let i = $index) {
+        <th class="border border-gray-300 p-2 text-left">
+          {{ col.title }}
+        </th>
+        }
+        <th class="border border-gray-300 p-2 text-left">
+          <div class="">
+            <select class="w-full border-0 rounded bg-gray-100">
+              <option value="">Actions</option>
+              <option value="edit">Edit</option>
+              <option value="delete">Delete</option>
+              <!-- Add more options as needed -->
+            </select>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for( row of data; track row.id ) {
+      <tr>
+        @for( col of columns; track j; let j = $index) {
+        <td class="border border-gray-300 p-2">
+          {{ row[col.dataKey] }}
+        </td>
+        }
+        <td class="border border-gray-300 p-2"></td>
+      </tr>
+      }
+    </tbody>
+    <tfoot>
+      <tr class="bg-primary-default text-white">
+        <td
+          [attr.colspan]="1"
+          class="border border-gray-300 p-2 text-left flex-1"
+        >
+          合計 {{ data.length }}
+        </td>
+        <td
+          [attr.colspan]="columns.length"
+          class="border border-gray-300 p-2 text-right flex-1"
+        >
+          {{ getTotalPrice() | currency : "¥" : "symbol" : "1.0-0" }}
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
