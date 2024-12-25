@@ -63,24 +63,28 @@ export class ProductDetailComponent implements OnChanges {
 
   onUnitPriceExcludingTaxBlur(event: any): void {
     if (this.product) {
-      this.product.productDetails.unitPrice = event.target.value;
+      this.product.productDetails.unitPrice = structuredClone(event.target.value?.replaceAll(',','').replace('¥',''));
+      this.reCaculateTotalPrice()
     }
   }
   onDiscountBlur(event: any): void {
     if (this.product) {
-      this.product.productDetails.discount = event.target.value;
+      this.product.productDetails.discount = structuredClone(event.target.value?.replaceAll(',','').replace('¥',''));
+      this.reCaculateTotalPrice()
     }
   }
 
   onUnitPriceBlur(event: any): void {
     if (this.product) {
-      this.product.productDetails.unitPrice = event.target.value;
+      this.product.productDetails.unitPrice = structuredClone(event.target.value?.replaceAll(',','').replace('¥',''));
+      this.reCaculateTotalPrice()
     }
   }
 
   onQuantityChange(event: any): void {
     if (this.product) {
       this.product.productDetails.quantity = event.target.value;
+      this.reCaculateTotalPrice()
     }
   }
 
@@ -97,6 +101,16 @@ export class ProductDetailComponent implements OnChanges {
           parseInt(this.product.productDetails.quantity) + 1
         ).toString();
       }
+    }
+    this.reCaculateTotalPrice()
+  }
+
+  reCaculateTotalPrice(): void {
+    if (this.product && this.product.productDetails) {
+      const unitPrice = +this.product?.productDetails?.unitPrice;
+      const quantity  = +this.product?.productDetails?.quantity;
+      const discount = +this.product?.productDetails?.discount;
+      this.product.productDetails.totalPrice = ((unitPrice - discount) * quantity).toString();
     }
   }
 }
