@@ -1,49 +1,114 @@
 <div class="overflow-x-auto">
+  <div class="table-header flex justify-between items-center mb-4">
+    <div class="title">
+      <h2 class="text-lg font-bold text-gray-700 flex items-center">
+        <span class="border-l-4 border-orange-500 pl-2">商品一覧</span>
+      </h2>
+    </div>
+    <div class="action-container">
+      <!-- Radio buttons -->
+      <div class="radio-group">
+        <label class="radio-label text-xl">
+          <input
+            type="radio"
+            name="status"
+            class="radio-input w-8 h-8"
+            value="takeaway"
+            [(ngModel)]="selectedStatus"
+            (change)="onStatusChange($event)"
+          />
+          持帰り
+        </label>
+        <label class="radio-label text-xl">
+          <input
+            type="radio"
+            name="status"
+            class="radio-input w-8 h-8"
+            value="delivery"
+            [(ngModel)]="selectedStatus"
+            (change)="onStatusChange($event)"
+            checked
+          />
+          配達
+        </label>
+      </div>
+
+      <!-- Green button -->
+      <button class="action-button">一部持帰り</button>
+      <app-pagination
+        paginationType="short"
+        [rowsPerPage]="itemsPerPage"
+        [totalItems]="data.length"
+        (paginationChange)="onPageChange($event)"
+      >
+      </app-pagination>
+    </div>
+  </div>
   <table class="min-w-full border-collapse border border-gray-300">
-    <thead class="bg-gray-100">
+    <thead class="bg-[#f0f0f0]">
       <tr>
+        <th class="border w-[15px] border-gray-300 p-3 text-center font-normal">
+          {{ "No" }}
+        </th>
         @for(col of columns; track i; let i = $index) {
-        <th class="border border-gray-300 p-2 text-left">
+        <th class="border border-gray-300 p-3 text-center font-normal">
           {{ col.title }}
         </th>
-        }
-        <th class="border border-gray-300 p-2 text-left">
+        } @if(actionColumn) {
+        <th class="border border-gray-300 p-2 text-center">
           <div class="">
             <select class="w-full border-0 rounded bg-gray-100">
               <option value="">Actions</option>
               <option value="edit">Edit</option>
               <option value="delete">Delete</option>
-              <!-- Add more options as needed -->
             </select>
           </div>
         </th>
+        }
       </tr>
     </thead>
     <tbody>
-      @for( row of data; track row.id ) {
-      <tr>
-        @for( col of columns; track j; let j = $index) {
-        <td class="border border-gray-300 p-2">
-          {{ row[col.dataKey] }}
+      @for(row of paginatedData; track i; let i = $index) {
+      <tr
+        (click)="onRowClick(row, i)"
+        [ngClass]="{ 'bg-[#4361ee] text-white': selectedRowIndex === i }"
+        class="cursor-pointer text-center"
+      >
+        <td class="border border-gray-300 p-5">
+          {{ (currentPage - 1) * itemsPerPage + i + 1 }}
+        </td>
+        @for(col of columns; track j; let j = $index) {
+        <td
+          class="border border-gray-300 p-5 xs:min-w-[6rem] sm:min-w-[6rem] md:min-w-[4rem]"
+        >
+          {{ row.productDetails[col.dataKey] }}
+        </td>
+        } @if(actionColumn) {
+        <td
+          class="border border-gray-300 p-5 xs:min-w-[6rem] sm:min-w-[6rem] md:min-w-[4rem]"
+        >
+          <div class="">
+            <select class="w-full border-0 rounded bg-gray-100">
+              <option value="">Actions</option>
+              <option value="edit">Edit</option>
+              <option value="delete">Delete</option>
+            </select>
+          </div>
         </td>
         }
-        <td class="border border-gray-300 p-2"></td>
       </tr>
       }
     </tbody>
     <tfoot>
       <tr class="bg-primary-default text-white">
-        <td
-          [attr.colspan]="1"
-          class="border border-gray-300 p-2 text-left flex-1"
-        >
+        <td [attr.colspan]="3" class="p-4 text-left flex-1 text-[1.5rem]">
           合計 {{ data.length }}
         </td>
         <td
           [attr.colspan]="columns.length"
-          class="border border-gray-300 p-2 text-right flex-1"
+          class="p-4 text-right flex-1 text-[1.5rem]"
         >
-          {{ getTotalPrice() | currency : "¥" : "symbol" : "1.0-0" }}
+          {{ "¥" + getTotalPrice().toLocaleString() }}
         </td>
       </tr>
     </tfoot>

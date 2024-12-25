@@ -1,0 +1,398 @@
+<div class="flex flex-col lg:flex-row">
+  <!-- Left Column -->
+  <div class="w-full lg:flex-1 p-4 lg:p-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-8">
+      <div class="flex items-center gap-2">
+        <div class="w-1 h-6 bg-orange-500"></div>
+        <h1 class="text-xl font-medium">商品情報</h1>
+      </div>
+
+      <div class="flex gap-6">
+        <button
+          class="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-md"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          ソフト予約
+        </button>
+        <button
+          class="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-md"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          商品検索
+        </button>
+        <button
+          class="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-md"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          展示品
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Form -->
+    <div class="space-y-6">
+      <!-- Product ID and Name -->
+      <div class="grid grid-cols-12 gap-4">
+        <div class="col-span-5">
+          <label class="block text-sm text-gray-600 mb-1">商品</label>
+          <div class="relative">
+            <input
+              type="text"
+              [value]="product?.productCode"
+              (focus)="showDropdown = true"
+              (blur)="hideDropdown()"
+              class="w-full px-3 py-2 border border-gray-200 rounded-md"
+            />
+            @if(showDropdown){
+            <div
+              class="absolute z-10 w-full bg-white border border-gray-200 rounded-md mb-1 bottom-full"
+            >
+              <ul class="max-h-[300px] overflow-y-auto">
+                @for(code of productCodes; let i = $index; track i){
+                <li
+                  (click)="selectProductCode(code)"
+                  class="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                >
+                  {{ code }}
+                </li>
+                }
+              </ul>
+            </div>
+            }
+          </div>
+        </div>
+        <div class="col-span-5">
+          <label class="block text-sm text-gray-600 mb-1">商品名</label>
+          <input
+            type="text"
+            [value]="product?.productDetails?.productName | currencyDisplay"
+            class="w-full px-3 py-2 bg-gray-100 border border-gray-200 rounded-md"
+            readonly
+          />
+        </div>
+        <div class="col-span-2">
+          <label class="block text-sm text-gray-600 mb-1">数量</label>
+          <div class="flex items-center gap-2">
+            <button
+              class="w-8 h-8 flex items-center justify-center bg-[#4361ee] text-white rounded-md"
+              (click)="setQuantity('minus')"
+            >
+              -
+            </button>
+            <input
+              type="text"
+              [value]="product?.productDetails?.quantity"
+              (change)="onQuantityChange($event)"
+              class="w-12 h-8 text-center border border-gray-200 rounded-md"
+              readonly
+            />
+            <button
+              class="w-8 h-8 flex items-center justify-center bg-[#4361ee] text-white rounded-md"
+              (click)="setQuantity('add')"
+            >
+              +
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Details -->
+      <div class="grid grid-cols-12 gap-4">
+        <div class="col-span-3">
+          <label class="block text-sm text-gray-600 mb-1">型番</label>
+          <input
+            type="text"
+            [value]="product?.productDetails?.modelNo | currencyDisplay"
+            class="w-full px-3 py-2 bg-gray-100 border border-gray-200 rounded-md"
+            readonly
+          />
+        </div>
+        <div class="col-span-3">
+          <label class="block text-sm text-gray-600 mb-1">メーカー名</label>
+          <input
+            type="text"
+            [value]="product?.productDetails?.makerName | currencyDisplay"
+            class="w-full px-3 py-2 bg-gray-100 border border-gray-200 rounded-md"
+            readonly
+          />
+        </div>
+        <div class="col-span-3">
+          <label class="block text-sm text-gray-600 mb-1">ランク</label>
+          <div class="flex gap-2">
+            <input
+              type="text"
+              [value]="product?.productDetails?.rank | currencyDisplay"
+              class="w-16 px-3 py-2 bg-gray-100 border border-gray-200 rounded-md text-center"
+              readonly
+            />
+            <input
+              type="text"
+              [value]="product?.productDetails?.rankValue | currencyDisplay"
+              class="w-16 px-3 py-2 bg-gray-100 border border-gray-200 rounded-md text-center"
+              readonly
+            />
+          </div>
+        </div>
+        <div class="col-span-3">
+          <label class="block text-sm text-gray-600 mb-1">在庫属性</label>
+          <button
+            class="w-full px-3 py-2 bg-blue-50 text-blue-600 border border-blue-100 rounded-md"
+          >
+            {{ product?.productDetails?.stockAttribute || "-" }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Price Information -->
+      <div class="grid grid-cols-5 gap-4">
+        <div>
+          <label class="block text-sm text-gray-600 mb-1">税別単価</label>
+          <input
+            type="text"
+            [value]="
+              product?.productDetails?.unitPriceExcludingTax | currencyDisplay
+            "
+            (blur)="onUnitPriceExcludingTaxBlur($event)"
+            class="w-full px-3 py-2 bg-gray-100 border border-gray-200 rounded-md"
+            readonly
+          />
+        </div>
+        <div>
+          <label class="block text-sm text-gray-600 mb-1">単価</label>
+          <input
+            type="text"
+            [value]="product?.productDetails?.unitPrice | currencyDisplay"
+            (blur)="onUnitPriceBlur($event)"
+            class="w-full px-3 py-2 border border-gray-200 rounded-md"
+          />
+        </div>
+        <div>
+          <label class="block text-sm text-gray-600 mb-1">マスター値引</label>
+          <input
+            type="text"
+            [value]="product?.productDetails?.masterDiscount | currencyDisplay"
+            class="w-full px-3 py-2 bg-gray-100 border border-gray-200 rounded-md"
+            readonly
+          />
+        </div>
+        <div>
+          <label class="block text-sm text-gray-600 mb-1">値引</label>
+          <input
+            type="text"
+            [value]="product?.productDetails?.discount | currencyDisplay"
+            (blur)="onDiscountBlur($event)"
+            class="w-full px-3 py-2 border border-gray-200 rounded-md"
+          />
+        </div>
+        <div>
+          <label class="block text-sm text-gray-600 mb-1">売価</label>
+          <input
+            type="text"
+            [value]="product?.productDetails?.sellingPrice | currencyDisplay"
+            class="w-full px-3 py-2 bg-gray-100 border border-gray-200 rounded-md"
+            readonly
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Right Column -->
+  <div
+    class="w-full lg:w-80 bg-white p-4 lg:p-6 border-t lg:border-t-0 border-gray-200"
+  >
+    <!-- Points Information -->
+    <div class="bg-[#fdf9f4] border border-[#f3981e] rounded-lg p-4 mb-6">
+      <div class="flex justify-between items-center mb-2">
+        <span class="text-gray-600">エディオンPt</span>
+        <span class="font-medium">0</span>
+      </div>
+      <div class="flex justify-between items-center">
+        <span class="text-gray-600">期間限定BPt</span>
+        <span class="font-medium">0</span>
+      </div>
+    </div>
+
+    <!-- Delivery Toggle -->
+    <div class="flex items-center justify-between mb-6 px-2">
+      <div class="flex items-center gap-2">
+        <svg class="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="none">
+          <path
+            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path>
+        </svg>
+        <span class="text-gray-600">引渡場</span>
+      </div>
+      <label class="relative inline-flex items-center cursor-pointer">
+        <input type="checkbox" class="sr-only peer" />
+        <div
+          class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"
+        ></div>
+      </label>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="space-y-2">
+      <a
+        href="#"
+        class="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50"
+      >
+        <div class="flex items-center gap-3">
+          <svg class="w-5 h-5 text-orange-500" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+          </svg>
+          <span class="text-gray-600">値引</span>
+        </div>
+        <svg
+          class="w-5 h-5 text-gray-400"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M9 5l7 7-7 7"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path>
+        </svg>
+      </a>
+      <a
+        href="#"
+        class="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50"
+      >
+        <div class="flex items-center gap-3">
+          <svg class="w-5 h-5 text-red-500" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M20 7l-8 8-8-8"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+          </svg>
+          <span class="text-gray-600">在庫</span>
+        </div>
+        <svg
+          class="w-5 h-5 text-gray-400"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M9 5l7 7-7 7"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path>
+        </svg>
+      </a>
+      <a
+        href="#"
+        class="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50"
+      >
+        <div class="flex items-center gap-3">
+          <svg class="w-5 h-5 text-pink-500" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M12 4v16m8-8H4"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+          </svg>
+          <span class="text-gray-600">属性</span>
+        </div>
+        <svg
+          class="w-5 h-5 text-gray-400"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M9 5l7 7-7 7"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path>
+        </svg>
+      </a>
+      <a
+        href="#"
+        class="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50"
+      >
+        <div class="flex items-center gap-3">
+          <svg class="w-5 h-5 text-green-500" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M4 6h16M4 12h16M4 18h16"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+          </svg>
+          <span class="text-gray-600">セット</span>
+        </div>
+        <svg
+          class="w-5 h-5 text-gray-400"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M9 5l7 7-7 7"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path>
+        </svg>
+      </a>
+    </nav>
+  </div>
+</div>

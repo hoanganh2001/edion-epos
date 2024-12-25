@@ -1,26 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 import data from '../../mock/data.json'; // Adjust the path to the actual location of data.json
-import { CardComponent } from '../../shared/components/card/card.component';
-import { CommonTableComponent } from '../../shared/components/common-table/common-table.component';
-import {
-    PaginationComponent, PaginationState
-} from '../../shared/components/pagination/pagination.component';
+import { PaginationState } from '../../shared/components/pagination/pagination.component';
+import { ModalService } from '../../shared/services/modal.service';
+import { ProductDetailComponent } from '../modules/product/product-detail/product-detail.component';
 
 @Component({
   selector: 'app-home',
-  imports: [
-    CommonModule,
-    CommonTableComponent,
-    CardComponent,
-    PaginationComponent,
-  ],
+  imports: [CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
   standalone: true,
 })
 export class HomeComponent {
+  constructor(private router: Router, private modalService: ModalService) {}
+
   columns = [
     { title: 'No', dataKey: 'No' },
     { title: 'Product Name', dataKey: 'ProductName' },
@@ -39,5 +35,11 @@ export class HomeComponent {
     this.data = state.items;
     this.currentPage = state.currentPage;
     this.rowsPerPage = state.rowsPerPage;
+  }
+  navigateToSales(): void {
+    this.router.navigate(['/sales']);
+  }
+  openModal(): void {
+    this.modalService.open(ProductDetailComponent, 'large');
   }
 }

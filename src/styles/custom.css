@@ -2,3 +2,8 @@ body {
   font-family: "Noto Sans JP", system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", "Noto Sans", "Liberation Sans", sans-serif;
 }
+
+.toast-top-right {
+  top: 58px !important;
+  right: 12px !important;
+}

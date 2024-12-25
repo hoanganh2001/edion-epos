@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f3f4f6;
+  padding: 1rem;
+}
+
+.sales-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  height: 60px;
+  border: 1px solid #1976d2;
+  color: #1976d2;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1.125rem;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: #f9fafb;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+}

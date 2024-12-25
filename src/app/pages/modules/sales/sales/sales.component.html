@@ -1,1 +1,18 @@
-<p>sales works!</p>
+<app-card>
+  <div class="p-4">
+    <app-common-table
+      [columns]="columns"
+      [data]="data"
+      (rowClick)="onRowClick($event)"
+      [selectedProduct]="selectedProduct"
+    >
+    </app-common-table>
+  </div>
+</app-card>
+<app-card>
+  <app-product-detail
+    [product]="selectedProduct"
+    [productCodes]="productCodes"
+    (productCodeSelected)="onProductCodeSelected($event)"
+  ></app-product-detail>
+</app-card>

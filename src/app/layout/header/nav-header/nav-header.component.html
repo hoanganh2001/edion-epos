@@ -8,13 +8,20 @@
     <label class="label">販売担</label>
     <div class="input-container">
       <div class="input-wrapper">
-        <input type="text" class="input-field" />
+        <input
+          type="text"
+          class="input-field"
+          [(ngModel)]="salesPerson"
+          (ngModelChange)="onSalesPersonChange($event)"
+        />
         <div class="search-icon">
           <img src="../../../../assets/icons/svg/QR.svg" alt="QR" />
         </div>
       </div>
       <div class="divider">|</div>
-      <div class="binding-section"></div>
+      <div class="binding-section">
+        <span class="binding-text">{{ salesPersonName }}</span>
+      </div>
     </div>
   </div>
 
@@ -22,11 +29,19 @@
     <label class="label">レジ担</label>
     <div class="input-container">
       <div class="input-wrapper">
-        <input type="text" class="input-field" />
+        <input
+          #cashierInput
+          type="text"
+          class="input-field"
+          [(ngModel)]="cashier"
+          (ngModelChange)="onCashierChange($event)"
+        />
         <div class="search-icon"></div>
       </div>
       <div class="divider">|</div>
-      <div class="binding-section"></div>
+      <div class="binding-section">
+        <span class="binding-text">{{ cashierName }}</span>
+      </div>
     </div>
   </div>
 

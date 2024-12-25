@@ -1,4 +1,39 @@
 <div class="flex items-center justify-between gap-4">
+  <!-- Short Pagination -->
+  @if (paginationType === 'short') {
+  <div class="flex items-center">
+    <button class="page-button" (click)="onPageChange(currentPage - 1)">
+      <svg
+        width="48"
+        height="48"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M15 18l-6-6 6-6" />
+      </svg>
+    </button>
+    <span class="page-count px-2">
+      <span class="text-[1rem] font-bold">{{ currentPage }}</span>
+      <span class="text-[1rem]">/</span>
+      <span class="text-[1rem]">{{ totalPages }}</span>
+    </span>
+    <button class="page-button" (click)="onPageChange(currentPage + 1)">
+      <svg
+        width="48"
+        height="48"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M9 18l6-6-6-6" />
+      </svg>
+    </button>
+  </div>
+  }
+
   <!-- Simple Pagination -->
   @if (paginationType === 'simple') {
   <div class="flex items-center gap-2">

@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 export type PaginationType =
@@ -7,7 +14,8 @@ export type PaginationType =
   | 'full'
   | 'compact'
   | 'minimal'
-  | 'japanese';
+  | 'japanese'
+  | 'short';
 
 export interface PaginationState<T> {
   items: T[];
@@ -35,15 +43,16 @@ export class PaginationComponent implements OnInit {
   @Input() rowsPerPageOptions = [5, 10, 20, 50];
   @Input() rowsPerPage: number = 10;
   @Input() currentPage: number = 1;
+  @Input() totalItems: number = 0;
 
   // Chuyển totalPages và totalItems thành getter để tính toán động
   get totalPages(): number {
     return Math.ceil(this.totalItems / this.rowsPerPage);
   }
 
-  get totalItems(): number {
-    return this.items.length;
-  }
+  // get totalItems(): number {
+  //   return this.items.length;
+  // }
 
   @Output() paginationChange = new EventEmitter<PaginationState<any>>();
 

@@ -1,6 +1,8 @@
-<div
-  [ngStyle]="{ 'background-color': backgroundColor }"
-  class="shadow-md rounded-lg p-6"
->
-  <ng-content></ng-content>
+<div class="space-y-6 p-3 bg-gray-100">
+  <div
+    [ngStyle]="{ 'background-color': backgroundColor }"
+    class="shadow-md rounded-lg space-y-6 p-3 bg-gray-100"
+  >
+    <ng-content></ng-content>
+  </div>
 </div>

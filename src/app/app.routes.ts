@@ -8,21 +8,12 @@ import { HomeComponent } from './pages/home/home.component';
 export const appRoutes: Routes = [
   {
     path: '',
-    component: LayoutComponent,
-    children: [
-      { path: 'home', component: HomeComponent },
-      { path: '', redirectTo: 'home', pathMatch: 'full' },
-      //   { path: 'login', component: LoginComponent },
-      //   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
-
-      {
-        path: '404',
-        loadComponent: () =>
-          import('./pages/error/error-404/error-404.component').then(
-            (c) => c.Error404Component
-          ),
-      },
-    ],
+    redirectTo: 'home',
+    pathMatch: 'full',
+  },
+  {
+    path: 'home',
+    component: HomeComponent,
   },
   {
     path: 'products',
