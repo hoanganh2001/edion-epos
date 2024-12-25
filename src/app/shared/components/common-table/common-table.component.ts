@@ -65,7 +65,6 @@ export class CommonTableComponent implements OnChanges, OnInit {
       this.rowClick.emit(
         this.selectedProduct !== null ? this.selectedProduct : undefined
       );
-
       this.selectedRowIndex = this.data.findIndex(
         (item) => item.productCode === product?.productCode
       );
@@ -74,8 +73,6 @@ export class CommonTableComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('changesss', changes);
-
     if (changes['data']) {
       this.data = changes['data'].currentValue;
     }

@@ -14,8 +14,6 @@ export class CommonTableService {
   currentProduct = this.productSource.asObservable();
 
   changeProduct(product: Product) {
-    console.log('55555555555555:', product);
-
     this.productSource.next(product);
   }
 }

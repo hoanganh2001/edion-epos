@@ -7,7 +7,6 @@ import {
   Product,
   ProductDetails,
 } from '../../../modules/product/models/product.model';
-import { ProductService } from '../../../modules/product/product.service';
 import { ProductDetailComponent } from '../../product/product-detail/product-detail.component';
 import { SalesService } from '../sales.service';
 
@@ -25,7 +24,6 @@ import { SalesService } from '../sales.service';
 })
 export class SalesComponent implements OnInit {
   private _salesService = inject(SalesService);
-  private productService = inject(ProductService);
 
   productCodesArr: string[] = [];
   data: Product[] = [];
@@ -58,16 +56,8 @@ export class SalesComponent implements OnInit {
           },
         };
       });
-      console.log('this.data', this.data);
-
-      this.productCodes = this.data.map((item) => item.productCode);
-      console.log('this.productCodes', this.productCodes);
+      this.productCodesArr = structuredClone(this.data.map((item) => item.productCode));
     });
-
-    // this.productService.currentProduct.subscribe((product) => {
-    //   console.log(1111111111, product);
-    //   this.selectedProduct = product;
-    // });
   }
 
   getTotalPrice(): number {
@@ -78,13 +68,7 @@ export class SalesComponent implements OnInit {
 
   onRowClick(product: Product): void {
     this.selectedProduct = product;
-    // this.productCodes = this.productCodesArr;
+    this.productCodes = this.productCodesArr;
   }
 
-  onProductCodeSelected(evnt: Product): void {
-    console.log('1vent:', evnt);
-
-    // this.selectedProduct = evnt;
-    // this.onRowClick(evnt);
-  }
 }
